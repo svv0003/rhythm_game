@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>리듬게임</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <h1>리듬게임</h1>
+  <div id="score-board">
+    점수 : <span id="score">0</span>
+    놓친 아이뎀 : <span id="miss">0</span>
+    시간 : <span id="timer">60</span>초
+  </div>
+  <div id="game-container"></div>
+  <div id="lanes-container">
+    <div class="lane">
+      <div class="key">D</div>
+    </div>
+    <div class="lane">
+      <div class="key">F</div>
+    </div>
+    <div class="lane">
+      <div class="key">J</div>
+    </div>
+    <div class="lane">
+      <div class="key">K</div>
+    </div>
+  </div>
+
+  <div id="game-over">
+    <h2>게임 종료</h2>
+    <p>최종 점수 : <span id="final-score">0</span></p>
+    <p>놓친 아이템 수 : <span id="final-miss">0</span></p>
+    <button onclick="location.reload()">다시시작</button>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>
