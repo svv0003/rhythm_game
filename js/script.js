@@ -23,7 +23,7 @@ $(function(){
 
   function startGame(){
     // 새로운 아이템을 0.8초마다 생성해서 떨어트리기
-    gameInterval = setInterval(아이템생성함수, 800);    // 1000 = 1초
+    gameInterval = setInterval(아이템생성함수, 500);    // 1000 = 1초
     // 1초마다 타이머 업데이트하기
     timerInterval = setInterval(타이머함수, 1000);
   }
@@ -167,12 +167,55 @@ $(function(){
       }
     })
 
+    /**
+     * mousedown    : 마우스를 사용하는 기기를 위한 이벤트
+     * touchstart   : 터치스크린이 있는 기기를 위한 이벤트
+     *                손가락이 화면에 닿았을 때 발생한다.
+     * 
+     * mousedown으로만 모두 처리 가능하지만 반응 속도 지연 발생한다.
+     * 모바일 브라우저는 사용자가 화면을 터치했을 때,
+     * 이것이 한 번의 탭인지 화면을 확대하기 위한 더블 탭인지
+     * 구분하기 위해 0.3초 정도 기다린 후 작업을 진행한다.
+     * -> touchstart를 사용하면 지연 시간을 방지할 수 있다.
+     * 
+     * 
+     * 
+     * 과제 : 마우스 클릭 및 모바일 터치 처리
+     * $(".key").on("mousedown touchstart", function(e){
+     *  e.preventDefault();   // 더블 클릭 시 확대 등 기본 동작까지 방지한다.
+     * })
+     */
+
     // 성공, 실패 상관없이 키 눌림 설정에 css 효과 표현하기
     // $(".key").eq(lane) - 현재 눌림을 당하는 키에 passed 클래스 추가하고,
     $(".key").eq(lane).addClass("passed");
     // 0.1초 후 눌림을 당하고, 눌림 당하기를 종료한 레인 키에 passed 클래스 제거한다.
     setTimeout(()=>$(".key").eq(lane).removeClass("passed"), 100);
   })
+
+
+  $(".key").on("mousedown touchstart", function(e) {
+    e.preventDefault();                               // 더블 클릭 시 확대 등 기본 동작 방지
+    const lane = $(this).parent().index();            // 부모 요소의 인덱스
+    const judgeLine = $("#game-container").height() - 80;
+    $(".note").each(function(){
+      if($(this).data("lane")===lane){
+        const notePos = $(this).position().top + 25;
+        if (Math.abs(notePos - judgeLine) < 50) {     // abs 절대값으로 -50 -> 50으로 처리한다.
+          $(this).stop().remove();
+          score++;
+          $("#score").text(score);
+          성공함수(lane);
+          $(".key").eq(lane).addClass("perfect");
+          setTimeout(() => $(".key").eq(lane).removeClass("perfect"), 300);
+          return false;
+        }
+      }
+    })
+    $(".key").eq(lane).addClass("passed");
+    setTimeout(() => $(".key").eq(lane).removeClass("passed"), 100);
+  });
+
 
  $("#startBtn").click(startGame);
 })
