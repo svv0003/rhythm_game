@@ -184,6 +184,68 @@ hitEffect 라는 이름의 애니메이션이 재생될 때,
   display: none;
 }
 
+.passed {
+  background-color: #495057;    /* 기본보다 약간 어두운 회색 */
+  transform: translateY(2px);     /* 살짝 아래로 눌리는 효과 */
+}
+
+#startBtn {
+  background-color: #17a2b8;
+  color: white;
+  font-size: 1.2rem;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+#startBtn:hover {
+  background-color: #1db9d1;
+}
+
+#startBtn:active {
+  background-color: #138496;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*********************************************
+
+@media는 css 맨 아래에 위치한다.
+
+*********************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* iPhone SE (375px) */
 @media (max-width: 375px) {
   h1 {

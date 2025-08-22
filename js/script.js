@@ -160,7 +160,7 @@ $(function(){
           // 해당 키 버튼에 성공 효과 클래스 추가하기
           // setTimeout을 이용해서 입력한 키보드 효과를 0.3초 후 누르고 떼는 설정에 대해서 CSS 제공
           $(".key").eq(lane).addClass("perfect");
-          setTimeout(()=>(".key").eq(lane).removeClass("perfect"), 300);
+          setTimeout(()=>$(".key").eq(lane).removeClass("perfect"), 300);
 
           return false;       // each를 중단 (하나의 아이템만 처리)
         }
@@ -168,9 +168,11 @@ $(function(){
     })
 
     // 성공, 실패 상관없이 키 눌림 설정에 css 효과 표현하기
+    // $(".key").eq(lane) - 현재 눌림을 당하는 키에 passed 클래스 추가하고,
     $(".key").eq(lane).addClass("passed");
-    setTimeout(()=>(".key").eq(lane).removeClass("passed"), 100);
+    // 0.1초 후 눌림을 당하고, 눌림 당하기를 종료한 레인 키에 passed 클래스 제거한다.
+    setTimeout(()=>$(".key").eq(lane).removeClass("passed"), 100);
   })
 
-  startGame();
+ $("#startBtn").click(startGame);
 })
