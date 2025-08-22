@@ -86,7 +86,7 @@ $(function(){
 
     // 아이템을 아래로 떨어트리는 애니메이션 (2초)
     item.animate(
-      {top:$("#game-container").height() + "px"}, 2000, "linear", function(){
+      {top:$("#game-container").height() + "px"}, 1000, "linear", function(){
         // 애니메이션 완료 시 (아이템이 높이 아래에 도착했을 때)
         if (gameActive) {
           $(this).remove();       // 현재 아이템 제거
@@ -96,6 +96,28 @@ $(function(){
       }
     )
   }
+
+  /**
+   * 아이템 적중 시 시각적으로 적중했다는 효과를 생성하는 함수
+   * @param {number} laneIndex - 효과를 표시할 레인 번호(0~3) 매개변수
+   */
+
+  function 성공함수(laneIndex){
+    // 해당 레인의 위치 정보 가져오기
+    const lane = $(".lane").eq(laneIndex);
+    const laneOffset = lane.position();
+
+    const effect = $("<div class='hit-effect'>").css({
+      // left는 레인 중앙에 위치하도록 x좌표 계산 (효과 크기의 절반만큼 보정)
+      left:laneOffset.left + lane.width() / 2 - 30 + "px",
+      top:$("#game-container").height() - 120 + "px",
+    });
+
+    $("body").append(effect);
+    setTimeout(()=>effect.remove(), 400)
+  }
+
+
 
   /**
    * 키보드 입력 처리 함수
@@ -131,9 +153,23 @@ $(function(){
           $(this).stop().remove();
           score++;
           $("#score").text(score);
+
+          // 성공 시각 효과 실행
+          성공함수(lane);
+
+          // 해당 키 버튼에 성공 효과 클래스 추가하기
+          // setTimeout을 이용해서 입력한 키보드 효과를 0.3초 후 누르고 떼는 설정에 대해서 CSS 제공
+          $(".key").eq(lane).addClass("perfect");
+          setTimeout(()=>(".key").eq(lane).removeClass("perfect"), 300);
+
+          return false;       // each를 중단 (하나의 아이템만 처리)
         }
       }
     })
+
+    // 성공, 실패 상관없이 키 눌림 설정에 css 효과 표현하기
+    $(".key").eq(lane).addClass("passed");
+    setTimeout(()=>(".key").eq(lane).removeClass("passed"), 100);
   })
 
   startGame();
